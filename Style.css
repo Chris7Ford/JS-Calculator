@@ -55,7 +55,6 @@ body{
 }
 
 .row-buttons{
-
   width:auto;
   height:20%;  
 }
@@ -66,7 +65,6 @@ body{
 
 .row--currentTotal {
   height:10%;
-  line-height: 10%;
   vertical-align: middle;
 }
 
@@ -81,6 +79,7 @@ body{
   width:20%;
   background:#1A0E53;
   height:auto;
+  color:#F5Fcc1;
   display:inline-block;
   font-family: 'Orbitron', sans-serif;
   text-align:center;
@@ -98,8 +97,9 @@ body{
   -moz-border-radius: 100px;
 }
 
-.btn-gray {
-  background: gray;
+div .btn-gray {
+  background: #F5Fcc1;
+  color:black;
 }
 
 .btn:active {
