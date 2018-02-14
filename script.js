@@ -32,7 +32,7 @@ var zero = document.querySelector(".zero");
 var decimal= document.querySelector(".decimal");
 var equals= document.querySelector(".equals");
 
-runningDisplayView=document.querySelector(".runningTotal");
+runningDisplayView=document.querySelector(".row--runningTotal");
 
 runningDisplayString=0;
 buttonId=0;
@@ -41,12 +41,22 @@ runningDisplayArray=[];
 
 function pushRunningArray(){
     runningDisplayArray.push(buttonId.innerHTML);
+    return runningDisplayArray;
+}
+
+function runningDisplayConvertToString() {
     runningDisplayString=runningDisplayArray.join('');
     return runningDisplayString;
 }
 
+function appendToRunningDisplay () {
+    runningDisplayView.innerHTML=runningDisplayString;
+}
+
 function activity() {
     pushRunningArray();
+    runningDisplayConvertToString();
+    appendToRunningDisplay();
 }
 
 ce.addEventListener("click",function(){buttonId=ce; activity();})
