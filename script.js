@@ -4,7 +4,7 @@
 3.  
 
 ---
-Making separate functions for each action to be able to return multiple values
+
 colors:
 http://paletton.com/#uid=35m0x0kaVz84jP27qHbeJtFiHpX
 */
@@ -32,56 +32,55 @@ var zero = document.querySelector(".zero");
 var decimal= document.querySelector(".decimal");
 var equals= document.querySelector(".equals");
 
-runningDisplayView=document.querySelector(".row--runningTotal");
+currentDisplay =
+{   view:document.querySelector(".row--currentTotal"),
+    array:[],
+    string:0,
+}
 
-runningDisplayString=0;
+runningDisplay = {
+    view:document.querySelector(".row--runningTotal"),
+    array:[],
+    string:0,
+}
+
 buttonId=0;
 mainDisplay=[];
-runningDisplayArray=[];
 
-function pushRunningArray(){
-    runningDisplayArray.push(buttonId.innerHTML);
-    return runningDisplayArray;
+function clearAll() {
+    runningDisplay.array=[];
+    runningDisplay.string=0;
+    runningDisplay.view.innerHTML=runningDisplay.string;
+    currentDisplay.array=[];
+    currentDisplay.string=0;
+    currentDisplay.view.innerHTML=currentDisplay.string;
 }
 
-function runningDisplayConvertToString() {
-    runningDisplayString=runningDisplayArray.join('');
-    return runningDisplayString;
+function pushRunningDisplay(){
+    runningDisplay.array.push(buttonId.innerHTML);
+    runningDisplay.string=runningDisplay.array.join('');
+    runningDisplay.view.innerHTML=runningDisplay.string;
+    return runningDisplay;
 }
 
-function appendToRunningDisplay () {
-    runningDisplayView.innerHTML=runningDisplayString;
-}
-
-function activity() {
-    pushRunningArray();
-    runningDisplayConvertToString();
-    appendToRunningDisplay();
-}
-
-ce.addEventListener("click",function(){buttonId=ce; activity();})
-c.addEventListener("click",function(){buttonId=c; activity();})
-if(del) {
-del.addEventListener("click",function(){buttonId=del; activity();})
-}
-divide.addEventListener("click",function(){buttonId=divide; activity();return buttonId;})
-seven.addEventListener("click",function(){buttonId=seven; activity();return buttonId;})
-eight.addEventListener("click",function(){buttonId=eight; activity();return buttonId;})
-nine.addEventListener("click",function(){buttonId=nine; activity();return buttonId;})
-multiply.addEventListener("click",function(){buttonId=multiply; activity();return buttonId;})
-four.addEventListener("click",function(){buttonId=four; activity();return buttonId;})
-five.addEventListener("click",function(){buttonId=five; activity();return buttonId;})
-six.addEventListener("click",function(){buttonId=six; activity();return buttonId;})
-subtract.addEventListener("click",function(){buttonId=subtract; activity();return buttonId;})
-one.addEventListener("click",function(){buttonId=one; activity();return buttonId;})
-two.addEventListener("click",function(){buttonId=two; activity();return buttonId;})
-three.addEventListener("click",function(){buttonId=three; activity();return buttonId;})
-add.addEventListener("click",function(){buttonId=add; activity();return buttonId;})
-neg_pos.addEventListener("click",function(){buttonId=neg_pos; activity();return buttonId;})
-zero.addEventListener("click",function(){buttonId=zero; activity();return buttonId;})
-decimal.addEventListener("click",function(){buttonId=decimal; activity();return buttonId;})
-equals.addEventListener("click",function(){buttonId=equals; activity();return buttonId;})
-
-
-
+ce.addEventListener("click",function(){buttonId=ce; pushRunningDisplay();})
+c.addEventListener("click",function(){buttonId=c; clearAll();})
+del.addEventListener("click",function(){buttonId=del; pushRunningDisplay();})
+divide.addEventListener("click",function(){buttonId=divide; pushRunningDisplay();return buttonId;})
+seven.addEventListener("click",function(){buttonId=seven; pushRunningDisplay();return buttonId;})
+eight.addEventListener("click",function(){buttonId=eight; pushRunningDisplay();return buttonId;})
+nine.addEventListener("click",function(){buttonId=nine; pushRunningDisplay();return buttonId;})
+multiply.addEventListener("click",function(){buttonId=multiply; pushRunningDisplay();return buttonId;})
+four.addEventListener("click",function(){buttonId=four; pushRunningDisplay();return buttonId;})
+five.addEventListener("click",function(){buttonId=five; pushRunningDisplay();return buttonId;})
+six.addEventListener("click",function(){buttonId=six; pushRunningDisplay();return buttonId;})
+subtract.addEventListener("click",function(){buttonId=subtract; pushRunningDisplay();return buttonId;})
+one.addEventListener("click",function(){buttonId=one; pushRunningDisplay();return buttonId;})
+two.addEventListener("click",function(){buttonId=two; pushRunningDisplay();return buttonId;})
+three.addEventListener("click",function(){buttonId=three; pushRunningDisplay();return buttonId;})
+add.addEventListener("click",function(){buttonId=add; pushRunningDisplay();return buttonId;})
+neg_pos.addEventListener("click",function(){buttonId=neg_pos; pushRunningDisplay();return buttonId;})
+zero.addEventListener("click",function(){buttonId=zero; pushRunningDisplay();return buttonId;})
+decimal.addEventListener("click",function(){buttonId=decimal; pushRunningDisplay();return buttonId;})
+equals.addEventListener("click",function(){buttonId=equals; pushRunningDisplay();return buttonId;})
 })
