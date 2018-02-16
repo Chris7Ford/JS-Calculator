@@ -32,53 +32,80 @@ var zero = document.querySelector(".zero");
 var decimal= document.querySelector(".decimal");
 var equals= document.querySelector(".equals");
 
-currentDisplay =
-{   view:document.querySelector(".row--currentTotal"),
+
+board = {
+
+currentDisplay :{
+    view:document.querySelector(".row--currentTotal"),
     array:[],
     string:0,
-}
+},
 
-runningDisplay = {
+runningDisplay : {
     view:document.querySelector(".row--runningTotal"),
     array:[],
     string:0,
+},
+
+decimalUsable : true,
+arithmeticUsable : false
+
 }
 
 buttonId=0;
-mainDisplay=[];
 
 function clearAll() {
-    runningDisplay.array=[];
-    runningDisplay.string=0;
-    runningDisplay.view.innerHTML=runningDisplay.string;
-    currentDisplay.array=[];
-    currentDisplay.string=0;
-    currentDisplay.view.innerHTML=currentDisplay.string;
+    board.runningDisplay.array=[];
+    board.runningDisplay.string=0;
+    board.runningDisplay.view.innerHTML=board.runningDisplay.string;
+    board.currentDisplay.value=0;
+    board.currentDisplay.string=0;
+    board.currentDisplay.view.innerHTML=board.currentDisplay.string;
+    return board;
+}
+
+function clearEntry() {
+    board.runningDisplay.array=[];
+    board.runningDisplay.string=0;
+    board.runningDisplay.view.innerHTML=board.runningDisplay.string;
+    return board;
 }
 
 function pushRunningDisplay(){
-    runningDisplay.array.push(buttonId.innerHTML);
-    runningDisplay.string=runningDisplay.array.join('');
-    runningDisplay.view.innerHTML=runningDisplay.string;
-    return runningDisplay;
+    board.runningDisplay.array.push(buttonId.innerHTML);
+    board.runningDisplay.string=board.runningDisplay.array.join('');
+    board.runningDisplay.view.innerHTML=board.runningDisplay.string;
+    board.arithmeticUsable=true;
+    return board;
 }
 
-ce.addEventListener("click",function(){buttonId=ce; pushRunningDisplay();})
+function arithmeticButton () {
+    if(board.arithmeticUsable == true) {
+        board.runningDisplay.array.push(buttonId.innerHTML);
+        board.runningDisplay.string=board.runningDisplay.array.join('');
+        board.runningDisplay.view.innerHTML=board.runningDisplay.string;
+        board.currentDisplay.array=board.runningDisplay.array;
+        board.currentDisplay.array
+        //need to pop the last arithmetic button to evaluate,
+    }
+}
+
+ce.addEventListener("click",function(){buttonId=ce; clearEntry();})
 c.addEventListener("click",function(){buttonId=c; clearAll();})
 del.addEventListener("click",function(){buttonId=del; pushRunningDisplay();})
-divide.addEventListener("click",function(){buttonId=divide; pushRunningDisplay();return buttonId;})
+divide.addEventListener("click",function(){buttonId=divide; arithmeticButton();return buttonId;})
 seven.addEventListener("click",function(){buttonId=seven; pushRunningDisplay();return buttonId;})
 eight.addEventListener("click",function(){buttonId=eight; pushRunningDisplay();return buttonId;})
 nine.addEventListener("click",function(){buttonId=nine; pushRunningDisplay();return buttonId;})
-multiply.addEventListener("click",function(){buttonId=multiply; pushRunningDisplay();return buttonId;})
+multiply.addEventListener("click",function(){buttonId=multiply; arithmeticButton();return buttonId;})
 four.addEventListener("click",function(){buttonId=four; pushRunningDisplay();return buttonId;})
 five.addEventListener("click",function(){buttonId=five; pushRunningDisplay();return buttonId;})
 six.addEventListener("click",function(){buttonId=six; pushRunningDisplay();return buttonId;})
-subtract.addEventListener("click",function(){buttonId=subtract; pushRunningDisplay();return buttonId;})
+subtract.addEventListener("click",function(){buttonId=subtract; arithmeticButton();return buttonId;})
 one.addEventListener("click",function(){buttonId=one; pushRunningDisplay();return buttonId;})
 two.addEventListener("click",function(){buttonId=two; pushRunningDisplay();return buttonId;})
 three.addEventListener("click",function(){buttonId=three; pushRunningDisplay();return buttonId;})
-add.addEventListener("click",function(){buttonId=add; pushRunningDisplay();return buttonId;})
+add.addEventListener("click",function(){buttonId=add; arithmeticButton();return buttonId;})
 neg_pos.addEventListener("click",function(){buttonId=neg_pos; pushRunningDisplay();return buttonId;})
 zero.addEventListener("click",function(){buttonId=zero; pushRunningDisplay();return buttonId;})
 decimal.addEventListener("click",function(){buttonId=decimal; pushRunningDisplay();return buttonId;})
