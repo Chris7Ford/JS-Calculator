@@ -35,18 +35,19 @@ var equals= document.querySelector(".equals");
 
 board = {
 
-currentDisplay :{
-    view:document.querySelector(".row--currentTotal"),
-    array:[],
-    string:0,
-},
-
-runningDisplay : {
+bottomDisplay :{
     view:document.querySelector(".row--runningTotal"),
     array:[],
     string:0,
 },
 
+runningDisplay : {
+    view:document.querySelector(".row--currentTotal"),
+    array:[],
+    string:0,
+},
+
+solution : 0,
 decimalUsable : true,
 arithmeticUsable : false
 
@@ -55,44 +56,61 @@ arithmeticUsable : false
 buttonId=0;
 
 function clearAll() {
-    board.runningDisplay.array=[];
-    board.runningDisplay.string=0;
-    board.runningDisplay.view.innerHTML=board.runningDisplay.string;
-    board.currentDisplay.value=0;
-    board.currentDisplay.string=0;
-    board.currentDisplay.view.innerHTML=board.currentDisplay.string;
+    board.bottomDisplay.array=[];
+    board.bottomDisplay.string=0;
+    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
+    board.topDisplay.array=[];
+    board.topDisplay.string=0;
+    board.topDisplay.view.innerHTML=board.topDisplay.string;
     return board;
 }
 
 function clearEntry() {
-    board.runningDisplay.array=[];
-    board.runningDisplay.string=0;
-    board.runningDisplay.view.innerHTML=board.runningDisplay.string;
+    board.bottomDisplay.array=[];
+    board.bottomDisplay.string=0;
+    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
     return board;
 }
 
 function pushRunningDisplay(){
-    board.runningDisplay.array.push(buttonId.innerHTML);
-    board.runningDisplay.string=board.runningDisplay.array.join('');
-    board.runningDisplay.view.innerHTML=board.runningDisplay.string;
+    board.bottomDisplay.array.push(buttonId.innerHTML);
+    board.bottomDisplay.string=board.bottomDisplay.array.join('');
+    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
     board.arithmeticUsable=true;
     return board;
 }
 
 function arithmeticButton () {
     if(board.arithmeticUsable == true) {
-        board.runningDisplay.array.push(buttonId.innerHTML);
-        board.runningDisplay.string=board.runningDisplay.array.join('');
-        board.runningDisplay.view.innerHTML=board.runningDisplay.string;
-        board.currentDisplay.array=board.runningDisplay.array;
-        board.currentDisplay.array
+        board.bottomDisplay.array.push(buttonId.innerHTML);
+        board.bottomDisplay.string=board.bottomDisplay.array.join('');
+        
+        board.topDisplay.array=board.bottomDisplay.array;
+        
+        board.topDisplay.array.pop();
+        board.topDisplay.string=board.topDisplay.array.join('')
+        board.solution = eval(board.topDisplay.string, buttonId.innerHTML, board.bottomDisplay.string);
+        board.topDisplay.view.innerHTML=board.solution;
+
+        board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
+        board.bottomDisplay.array=[];
+        return board;
         //need to pop the last arithmetic button to evaluate,
+    }
+}
+
+function deleteButton() {
+    board.bottomDisplay.array.pop();
+    board.bottomDisplay.string=board.bottomDisplay.array.join('');
+    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
+    if (board.bottomDisplay.array.length==0) {
+        board.bottomDisplay.view.innerHTML=0;
     }
 }
 
 ce.addEventListener("click",function(){buttonId=ce; clearEntry();})
 c.addEventListener("click",function(){buttonId=c; clearAll();})
-del.addEventListener("click",function(){buttonId=del; pushRunningDisplay();})
+del.addEventListener("click",function(){buttonId=del; deleteButton();})
 divide.addEventListener("click",function(){buttonId=divide; arithmeticButton();return buttonId;})
 seven.addEventListener("click",function(){buttonId=seven; pushRunningDisplay();return buttonId;})
 eight.addEventListener("click",function(){buttonId=eight; pushRunningDisplay();return buttonId;})
