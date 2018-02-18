@@ -35,18 +35,12 @@ var equals= document.querySelector(".equals");
 
 board = {
 
-bottomDisplay :{
-    view:document.querySelector(".row--runningTotal"),
+display :{
+    view:document.querySelector(".total"),
     array:[],
     string:0,
 },
-
-runningDisplay : {
-    view:document.querySelector(".row--currentTotal"),
-    array:[],
-    string:0,
-},
-
+previousResult : 0,
 solution : 0,
 decimalUsable : true,
 arithmeticUsable : false
@@ -56,55 +50,54 @@ arithmeticUsable : false
 buttonId=0;
 
 function clearAll() {
-    board.bottomDisplay.array=[];
-    board.bottomDisplay.string=0;
-    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
-    board.topDisplay.array=[];
-    board.topDisplay.string=0;
-    board.topDisplay.view.innerHTML=board.topDisplay.string;
+    board.display.array=[];
+    board.display.string=0;
+    board.display.view.innerHTML=board.display.string;
     return board;
 }
 
 function clearEntry() {
-    board.bottomDisplay.array=[];
-    board.bottomDisplay.string=0;
-    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
+    board.display.array=[];
+    board.display.string=0;
+    board.display.view.innerHTML=previousResult;
     return board;
 }
 
 function pushRunningDisplay(){
-    board.bottomDisplay.array.push(buttonId.innerHTML);
-    board.bottomDisplay.string=board.bottomDisplay.array.join('');
-    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
+    board.display.array.push(buttonId.innerHTML);
+    board.display.string=board.display.array.join('');
+    board.display.view.innerHTML=board.display.string;
     board.arithmeticUsable=true;
     return board;
 }
 
 function arithmeticButton () {
-    if(board.arithmeticUsable == true) {
-        board.bottomDisplay.array.push(buttonId.innerHTML);
-        board.bottomDisplay.string=board.bottomDisplay.array.join('');
-        
-        board.topDisplay.array=board.bottomDisplay.array;
-        
-        board.topDisplay.array.pop();
-        board.topDisplay.string=board.topDisplay.array.join('')
-        board.solution = eval(board.topDisplay.string, buttonId.innerHTML, board.bottomDisplay.string);
-        board.topDisplay.view.innerHTML=board.solution;
-
-        board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
-        board.bottomDisplay.array=[];
-        return board;
-        //need to pop the last arithmetic button to evaluate,
+    if (isNaN(board.display.array[board.display.array.length-1])==false) {
+        board.display.array.push(buttonId.innerHTML);
+        board.display.string=board.display.array.join('');
+        board.display.view.innerHTML=board.display.string;
     }
+    else {
+        board.display.array.splice(-1,1);
+        board.display.array.push(buttonId.innerHTML);
+        board.display.string=board.display.array.join('');
+        board.display.view.innerHTML=board.display.string;
+    }
+}    
+
+function equalsButton () {
+    /*if (isNaN(board.display.array[board.display.array.length-1])) {
+        board.display.array.splice(-1,1);
+    }*/
+    board.solution=eval(board.display.string);
 }
 
 function deleteButton() {
-    board.bottomDisplay.array.pop();
-    board.bottomDisplay.string=board.bottomDisplay.array.join('');
-    board.bottomDisplay.view.innerHTML=board.bottomDisplay.string;
-    if (board.bottomDisplay.array.length==0) {
-        board.bottomDisplay.view.innerHTML=0;
+    board.display.array.pop();
+    board.display.string=board.display.array.join('');
+    board.display.view.innerHTML=board.display.string;
+    if (board.display.array.length==0) {
+        board.display.view.innerHTML=0;
     }
 }
 
@@ -127,5 +120,5 @@ add.addEventListener("click",function(){buttonId=add; arithmeticButton();return 
 neg_pos.addEventListener("click",function(){buttonId=neg_pos; pushRunningDisplay();return buttonId;})
 zero.addEventListener("click",function(){buttonId=zero; pushRunningDisplay();return buttonId;})
 decimal.addEventListener("click",function(){buttonId=decimal; pushRunningDisplay();return buttonId;})
-equals.addEventListener("click",function(){buttonId=equals; pushRunningDisplay();return buttonId;})
+equals.addEventListener("click",function(){buttonId=equals; equalsButton ();return buttonId;})
 })

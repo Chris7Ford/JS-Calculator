@@ -39,11 +39,15 @@ body{
 }
 
 .title{
-  text-align:center;
-  height:5%;
+  text-align:left;
+  height:6rem;
   width:100%;
   background:#9ECDB9;
+  line-height: 6rem;
+  font-size: 3.5rem;
+  letter-spacing: .15rem;
   font-family: 'Lobster', cursive;
+  padding-left: 1rem;
 }
 
 .total{
@@ -52,20 +56,13 @@ body{
   border-radius:5%;
   text-align:right;
   font-family: 'Saira Extra Condensed', cursive;
+  height: 4rem;
+  overflow: hidden;
 }
 
 .row-buttons{
   width:auto;
   height:20%;  
-}
-
-.row--runningTotal {
-  height:6.25%;
-}
-
-.row--currentTotal {
-  height:10%;
-  vertical-align: middle;
 }
 
 .btn-body{
