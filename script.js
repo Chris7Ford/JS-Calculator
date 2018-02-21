@@ -53,18 +53,27 @@ function clearAll() {
     board.display.array=[];
     board.display.string=0;
     board.display.view.innerHTML=board.display.string;
+    board.previousResult=0;
     return board;
 }
 
 function clearEntry() {
-    board.display.array=[];
-    board.display.string=0;
-    board.display.view.innerHTML=previousResult;
+    board.display.array=[board.previousResult];
+    board.display.string=board.display.array.join('');
+    board.display.view.innerHTML=board.display.string;
     return board;
 }
 
-function pushRunningDisplay(){
-    board.display.array.push(buttonId.innerHTML);
+function toggleNegative () {
+    board.display.array = [eval(0-board.previousResult)];
+    board.display.string=board.display.array.join('');
+    board.display.view.innerHTML=board.display.string;
+    board.previousResult = board.display.string;
+    return board;
+}
+
+function pushRunningDisplay(num){
+    board.display.array.push(num);
     board.display.string=board.display.array.join('');
     board.display.view.innerHTML=board.display.string;
     board.arithmeticUsable=true;
@@ -77,19 +86,42 @@ function arithmeticButton () {
         board.display.string=board.display.array.join('');
         board.display.view.innerHTML=board.display.string;
     }
+    else if (board.display.array.length==0){
+        if (buttonId.innerText == '-') {
+        board.display.array.push(buttonId.innerHTML);
+        board.display.string=board.display.array.join('');
+        board.display.view.innerHTML=board.display.string;
+        }
+    }
     else {
         board.display.array.splice(-1,1);
         board.display.array.push(buttonId.innerHTML);
         board.display.string=board.display.array.join('');
         board.display.view.innerHTML=board.display.string;
     }
+    board.decimalUsable=true;
 }    
 
+
+
+function decimalButton () {
+    if (isNaN(board.display.array[board.display.array.length-1])==false && board.decimalUsable == true) {
+        board.display.array.push('.');
+        board.display.string=board.display.array.join('');
+        board.display.view.innerHTML=board.display.string;
+        board.decimalUsable=false;
+        return board;
+    }
+}
 function equalsButton () {
     /*if (isNaN(board.display.array[board.display.array.length-1])) {
         board.display.array.splice(-1,1);
     }*/
     board.solution=eval(board.display.string);
+    board.display.view.innerHTML=board.solution;
+    board.display.array=[board.solution];
+    board.previousResult=board.solution;
+    return board;
 }
 
 function deleteButton() {
@@ -105,20 +137,20 @@ ce.addEventListener("click",function(){buttonId=ce; clearEntry();})
 c.addEventListener("click",function(){buttonId=c; clearAll();})
 del.addEventListener("click",function(){buttonId=del; deleteButton();})
 divide.addEventListener("click",function(){buttonId=divide; arithmeticButton();return buttonId;})
-seven.addEventListener("click",function(){buttonId=seven; pushRunningDisplay();return buttonId;})
-eight.addEventListener("click",function(){buttonId=eight; pushRunningDisplay();return buttonId;})
-nine.addEventListener("click",function(){buttonId=nine; pushRunningDisplay();return buttonId;})
+seven.addEventListener("click",function(){buttonId=seven; pushRunningDisplay(7);return buttonId;})
+eight.addEventListener("click",function(){buttonId=eight; pushRunningDisplay(8);return buttonId;})
+nine.addEventListener("click",function(){buttonId=nine; pushRunningDisplay(9);return buttonId;})
 multiply.addEventListener("click",function(){buttonId=multiply; arithmeticButton();return buttonId;})
-four.addEventListener("click",function(){buttonId=four; pushRunningDisplay();return buttonId;})
-five.addEventListener("click",function(){buttonId=five; pushRunningDisplay();return buttonId;})
-six.addEventListener("click",function(){buttonId=six; pushRunningDisplay();return buttonId;})
+four.addEventListener("click",function(){buttonId=four; pushRunningDisplay(4);return buttonId;})
+five.addEventListener("click",function(){buttonId=five; pushRunningDisplay(5);return buttonId;})
+six.addEventListener("click",function(){buttonId=six; pushRunningDisplay(6);return buttonId;})
 subtract.addEventListener("click",function(){buttonId=subtract; arithmeticButton();return buttonId;})
-one.addEventListener("click",function(){buttonId=one; pushRunningDisplay();return buttonId;})
-two.addEventListener("click",function(){buttonId=two; pushRunningDisplay();return buttonId;})
-three.addEventListener("click",function(){buttonId=three; pushRunningDisplay();return buttonId;})
+one.addEventListener("click",function(){buttonId=one; pushRunningDisplay(1);return buttonId;})
+two.addEventListener("click",function(){buttonId=two; pushRunningDisplay(2);return buttonId;})
+three.addEventListener("click",function(){buttonId=three; pushRunningDisplay(3);return buttonId;})
 add.addEventListener("click",function(){buttonId=add; arithmeticButton();return buttonId;})
-neg_pos.addEventListener("click",function(){buttonId=neg_pos; pushRunningDisplay();return buttonId;})
-zero.addEventListener("click",function(){buttonId=zero; pushRunningDisplay();return buttonId;})
-decimal.addEventListener("click",function(){buttonId=decimal; pushRunningDisplay();return buttonId;})
+neg_pos.addEventListener("click",function(){buttonId=neg_pos; toggleNegative ();return buttonId;})
+zero.addEventListener("click",function(){buttonId=zero; pushRunningDisplay(0);return buttonId;})
+decimal.addEventListener("click",function(){buttonId=decimal;decimalButton ();return buttonId;})
 equals.addEventListener("click",function(){buttonId=equals; equalsButton ();return buttonId;})
 })
